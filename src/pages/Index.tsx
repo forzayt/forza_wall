@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import FWallNavbar from "@/components/FWallNavbar";
 import WallpaperCard from "@/components/WallpaperCard";
 import WallpaperModal from "@/components/WallpaperModal";
+import ScrambledText from "@/components/ScrambledText";
 import { getWallpaperStream, type Wallpaper } from "@/data/wallpapers";
 
 const wallpaperStream = getWallpaperStream();
@@ -25,16 +26,21 @@ const Index = () => {
       <div className="bg-radial-glow min-h-screen">
         <FWallNavbar atmosphere={atmosphere} onAtmosphereChange={setAtmosphere} />
 
-        {/* Hero */}
         <motion.div
-          className="pt-28 pb-8 text-center"
+          className="pt-28 pb-8 text-center flex flex-col items-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
         >
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tighter text-foreground">
+          <ScrambledText 
+            radius={200} 
+            duration={1.0} 
+            speed={0.4} 
+            scrambleChars=".:*#_/" 
+            className="text-5xl md:text-7xl font-bold tracking-tighter text-foreground"
+          >
             The Pool.
-          </h1>
+          </ScrambledText>
           <p className="mt-3 text-muted-foreground text-sm max-w-md mx-auto" style={{ textWrap: "balance" } as React.CSSProperties}>
             A curated stream of high-fidelity digital canvases.
           </p>

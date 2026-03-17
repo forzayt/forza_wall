@@ -1,4 +1,5 @@
 import { motion, useScroll, useTransform } from "framer-motion";
+import ScrambledText from "./ScrambledText";
 
 interface FWallNavbarProps {
   atmosphere: string;
@@ -22,9 +23,15 @@ const FWallNavbar = ({ atmosphere, onAtmosphereChange }: FWallNavbarProps) => {
       className="fixed top-4 z-50 h-14 max-w-7xl"
     >
       <div className="glass-surface h-full rounded-full px-6 flex items-center justify-between">
-        <span className="text-2xl tracking-tighter font-bold text-foreground">
+        <ScrambledText 
+          radius={80} 
+          duration={0.6} 
+          speed={0.4} 
+          scrambleChars=".:*#" 
+          className="text-2xl tracking-tighter font-bold text-foreground"
+        >
           FWall
-        </span>
+        </ScrambledText>
 
         <div className="flex items-center gap-4">
           {/* Atmosphere dots */}
