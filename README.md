@@ -2,7 +2,6 @@
 
 A curated stream of high-fidelity digital canvases. `fwall` is a modern, responsive wallpaper gallery built with Vite, React, and Shadcn UI.
 
-![Screenshot of fwall](public/placeholder.svg)
 
 ## Features
 
@@ -31,7 +30,7 @@ A curated stream of high-fidelity digital canvases. `fwall` is a modern, respons
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/fwall.git
+   git clone https://github.com/forzayt/fwall.git
    cd fwall
    ```
 
