@@ -25,7 +25,7 @@ const Index = () => {
   useEffect(() => {
     const fetchDataFiles = async () => {
       try {
-        const response = await fetch('/api/list-data');
+        const response = await fetch('/data.json');
         if (response.ok) {
           const files = await response.json();
           setDataFiles(files);
