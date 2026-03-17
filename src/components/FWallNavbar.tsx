@@ -13,13 +13,13 @@ const atmospheres = [
 
 const FWallNavbar = ({ atmosphere, onAtmosphereChange }: FWallNavbarProps) => {
   const { scrollY } = useScroll();
-  const width = useTransform(scrollY, [0, 100], ["100%", "90%"]);
-  const y = useTransform(scrollY, [0, 100], [0, 10]);
+  const width = useTransform(scrollY, [0, 100], ["95%", "85%"]);
+  const y = useTransform(scrollY, [0, 100], [0, 12]);
 
   return (
     <motion.nav
-      style={{ width, y }}
-      className="fixed top-4 left-1/2 z-50 h-14 -translate-x-1/2"
+      style={{ width, y, x: "-50%", left: "50%" }}
+      className="fixed top-4 z-50 h-14 max-w-7xl"
     >
       <div className="glass-surface h-full rounded-full px-6 flex items-center justify-between">
         <span className="text-2xl tracking-tighter font-bold text-foreground">
