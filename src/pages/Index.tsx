@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import FWallNavbar from "@/components/FWallNavbar";
 import WallpaperCard from "@/components/WallpaperCard";
@@ -9,22 +9,28 @@ import { getWallpaperStream, type Wallpaper } from "@/data/wallpapers";
 const wallpaperStream = getWallpaperStream();
 
 const Index = () => {
-  const [atmosphere, setAtmosphere] = useState("default");
+  const [atmosphereColor, setAtmosphereColor] = useState(() => {
+    return localStorage.getItem("fwall-atmosphere-color") || "#9b87f5"; // Default primary color
+  });
   const [selected, setSelected] = useState<Wallpaper | null>(null);
 
-  const atmosphereClass =
-    atmosphere === "blue"
-      ? "atmosphere-blue"
-      : atmosphere === "teal"
-      ? "atmosphere-teal"
-      : atmosphere === "purple"
-      ? "atmosphere-purple"
-      : "";
+  useEffect(() => {
+    localStorage.setItem("fwall-atmosphere-color", atmosphereColor);
+  }, [atmosphereColor]);
 
   return (
-    <div className={`min-h-screen ${atmosphereClass}`}>
-      <div className="bg-radial-glow min-h-screen">
-        <FWallNavbar atmosphere={atmosphere} onAtmosphereChange={setAtmosphere} />
+    <div className="min-h-screen">
+      <div 
+        className="bg-radial-glow min-h-screen transition-colors duration-700"
+        style={{ 
+          background: `
+            radial-gradient(ellipse at 20% 50%, ${atmosphereColor}1a 0%, transparent 60%),
+            radial-gradient(ellipse at 80% 20%, ${atmosphereColor}12 0%, transparent 60%),
+            hsl(var(--background))
+          `
+        } as React.CSSProperties}
+      >
+        <FWallNavbar atmosphere={atmosphereColor} onAtmosphereChange={setAtmosphereColor} />
 
         <motion.div
           className="pt-28 pb-8 text-center flex flex-col items-center"

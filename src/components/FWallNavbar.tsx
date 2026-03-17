@@ -3,14 +3,8 @@ import ScrambledText from "./ScrambledText";
 
 interface FWallNavbarProps {
   atmosphere: string;
-  onAtmosphereChange: (atm: string) => void;
+  onAtmosphereChange: (color: string) => void;
 }
-
-const atmospheres = [
-  { id: "default", color: "bg-primary" },
-  { id: "blue", color: "bg-accent" },
-  { id: "teal", color: "bg-emerald-500" },
-];
 
 const FWallNavbar = ({ atmosphere, onAtmosphereChange }: FWallNavbarProps) => {
   const { scrollY } = useScroll();
@@ -34,20 +28,18 @@ const FWallNavbar = ({ atmosphere, onAtmosphereChange }: FWallNavbarProps) => {
         </ScrambledText>
 
         <div className="flex items-center gap-4">
-          {/* Atmosphere dots */}
-          <div className="flex items-center gap-2">
-            {atmospheres.map((atm) => (
-              <button
-                key={atm.id}
-                onClick={() => onAtmosphereChange(atm.id)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${atm.color} ${
-                  atmosphere === atm.id
-                    ? "scale-125 ring-2 ring-foreground/30 ring-offset-1 ring-offset-background"
-                    : "opacity-50 hover:opacity-80"
-                }`}
-              />
-            ))}
-          </div>
+          <label className="relative flex items-center justify-center w-6 h-6 group cursor-pointer">
+            <input
+              type="color"
+              value={atmosphere}
+              onChange={(e) => onAtmosphereChange(e.target.value)}
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+            />
+            <div 
+              className="w-4 h-4 rounded-full ring-2 ring-foreground/10 ring-offset-1 ring-offset-background group-hover:scale-125 transition-transform duration-300"
+              style={{ backgroundColor: atmosphere }}
+            />
+          </label>
 
           <button className="px-5 py-2 rounded-full text-sm font-medium bg-foreground text-background transition-all duration-300 hover:shadow-[0_0_20px_hsla(0,0%,100%,0.3)]">
             Contribute
