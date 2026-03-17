@@ -2,5 +2,9 @@
   {
     "name": "1gr.jpg",
     "url": "/data/1gr.jpg"
+  },
+  {
+    "name": "download.png",
+    "url": "/data/download.png"
   }
 ]

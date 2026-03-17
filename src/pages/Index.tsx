@@ -28,7 +28,9 @@ const Index = () => {
         const response = await fetch('/data.json');
         if (response.ok) {
           const files = await response.json();
-          setDataFiles(files);
+          // Randomize the order of files on each refresh
+          const shuffled = [...files].sort(() => Math.random() - 0.5);
+          setDataFiles(shuffled);
         }
       } catch (error) {
         console.error("Failed to fetch data files:", error);
