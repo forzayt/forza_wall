@@ -41,9 +41,14 @@ const FWallNavbar = ({ atmosphere, onAtmosphereChange }: FWallNavbarProps) => {
             />
           </label>
 
-          <button className="px-5 py-2 rounded-full text-sm font-medium bg-foreground text-background transition-all duration-300 hover:shadow-[0_0_20px_hsla(0,0%,100%,0.3)]">
+          <a 
+            href="https://github.com/forzayt/fwall"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-5 py-2 rounded-full text-sm font-medium bg-foreground text-background transition-all duration-300 hover:shadow-[0_0_20px_hsla(0,0%,100%,0.3)]"
+          >
             Contribute
-          </button>
+          </a>
         </div>
       </div>
     </motion.nav>
