@@ -6,6 +6,7 @@ interface Wallpaper {
   src: string;
   title: string;
   author: string;
+  downloadUrl?: string;
 }
 
 interface WallpaperModalProps {
@@ -15,7 +16,17 @@ interface WallpaperModalProps {
 
 const WallpaperModal = ({ wallpaper, onClose }: WallpaperModalProps) => {
   const handleDownload = () => {
-    toast.success("Saved to local.");
+    if (wallpaper?.downloadUrl) {
+      const link = document.createElement('a');
+      link.href = wallpaper.downloadUrl;
+      link.download = wallpaper.title; // Note: server-side Content-Disposition takes priority
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      toast.success("Download started.");
+    } else {
+      toast.error("Download not available.");
+    }
   };
 
   return (
