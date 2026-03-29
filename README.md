@@ -30,7 +30,7 @@ A curated stream of high-fidelity digital canvases. `fwall` is a modern, respons
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/forzayt/fwall.git
+   git clone https://github.com/forzayt/forza_wall.git
    cd fwall
    ```
 

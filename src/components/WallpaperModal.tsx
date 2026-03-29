@@ -59,7 +59,7 @@ const WallpaperModal = ({ wallpaper, onClose }: WallpaperModalProps) => {
             {/* Close button */}
             <button
               onClick={onClose}
-              className="absolute -top-2 -right-2 w-10 h-10 rounded-full glass-surface flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors z-20"
+              className="absolute -top-2 -right-2 w-10 h-10 rounded-full bg-red-500 hover:bg-red-600 flex items-center justify-center text-white transition-colors z-20 shadow-lg"
             >
               <X size={18} />
             </button>
