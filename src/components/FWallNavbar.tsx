@@ -1,12 +1,17 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import ScrambledText from "./ScrambledText";
+import { RefreshCw } from "lucide-react";
+import { Button } from "./ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 interface FWallNavbarProps {
   atmosphere: string;
   onAtmosphereChange: (color: string) => void;
+  onRefresh?: () => void;
+  isRefreshing?: boolean;
 }
 
-const FWallNavbar = ({ atmosphere, onAtmosphereChange }: FWallNavbarProps) => {
+const FWallNavbar = ({ atmosphere, onAtmosphereChange, onRefresh, isRefreshing }: FWallNavbarProps) => {
   const { scrollY } = useScroll();
   const width = useTransform(scrollY, [0, 100], ["95%", "85%"]);
   const y = useTransform(scrollY, [0, 100], [0, 12]);
@@ -28,6 +33,26 @@ const FWallNavbar = ({ atmosphere, onAtmosphereChange }: FWallNavbarProps) => {
         </ScrambledText>
 
         <div className="flex items-center gap-4">
+          {onRefresh && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onRefresh}
+              disabled={isRefreshing}
+              className="rounded-full px-4 gap-2 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+            >
+              <motion.div
+                animate={isRefreshing ? { rotate: 360 } : { rotate: 0 }}
+                transition={isRefreshing ? { repeat: Infinity, duration: 1, ease: "linear" } : { duration: 0.5 }}
+              >
+                <RefreshCw className="w-4 h-4" />
+              </motion.div>
+              <span className="hidden sm:inline text-xs font-medium tracking-tight uppercase">
+                {isRefreshing ? "Refreshing..." : "Refresh Feed"}
+              </span>
+            </Button>
+          )}
+
           <label className="relative flex items-center justify-center w-6 h-6 group cursor-pointer">
             <input
               type="color"

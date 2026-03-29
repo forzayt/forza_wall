@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import FWallNavbar from "@/components/FWallNavbar";
 import WallpaperCard from "@/components/WallpaperCard";
 import WallpaperModal from "@/components/WallpaperModal";
 import ScrambledText from "@/components/ScrambledText";
-import { Download, File } from "lucide-react";
+import { Download, File, RefreshCw } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 interface DataFile {
   name: string;
@@ -18,6 +20,31 @@ const Index = () => {
   const [selected, setSelected] = useState<any | null>(null);
   const [dataFiles, setDataFiles] = useState<DataFile[]>([]);
   const [columns, setColumns] = useState(1);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const fetchDataFiles = useCallback(async () => {
+    try {
+      const response = await fetch('/data.json');
+      if (response.ok) {
+        const files = await response.json();
+        // Randomize the order of files on each refresh
+        const shuffled = [...files].sort(() => Math.random() - 0.5);
+        setDataFiles(shuffled);
+      } else {
+        throw new Error("Failed to fetch data files");
+      }
+    } catch (error) {
+      console.error("Failed to fetch data files:", error);
+    }
+  }, []);
+
+  const handleFullRefresh = () => {
+    setIsRefreshing(true);
+    // Brief delay to show the refresh animation before the page reloads
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+  };
 
   useEffect(() => {
     const updateColumns = () => {
@@ -36,21 +63,8 @@ const Index = () => {
   }, [atmosphereColor]);
 
   useEffect(() => {
-    const fetchDataFiles = async () => {
-      try {
-        const response = await fetch('/data.json');
-        if (response.ok) {
-          const files = await response.json();
-          // Randomize the order of files on each refresh
-          const shuffled = [...files].sort(() => Math.random() - 0.5);
-          setDataFiles(shuffled);
-        }
-      } catch (error) {
-        console.error("Failed to fetch data files:", error);
-      }
-    };
     fetchDataFiles();
-  }, []);
+  }, [fetchDataFiles]);
 
   const images = dataFiles.filter(file => 
     /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(file.name)
@@ -78,7 +92,12 @@ const Index = () => {
           `
         } as React.CSSProperties}
       >
-        <FWallNavbar atmosphere={atmosphereColor} onAtmosphereChange={setAtmosphereColor} />
+        <FWallNavbar 
+           atmosphere={atmosphereColor} 
+           onAtmosphereChange={setAtmosphereColor} 
+           onRefresh={handleFullRefresh}
+           isRefreshing={isRefreshing}
+         />
 
         <motion.div
           className="pt-28 pb-8 text-center flex flex-col items-center"
