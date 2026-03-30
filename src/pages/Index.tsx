@@ -50,8 +50,7 @@ const Index = () => {
     const updateColumns = () => {
       if (window.innerWidth >= 1280) setColumns(4);
       else if (window.innerWidth >= 1024) setColumns(3);
-      else if (window.innerWidth >= 640) setColumns(2);
-      else setColumns(1);
+      else setColumns(2);
     };
     updateColumns();
     window.addEventListener("resize", updateColumns);
@@ -93,8 +92,6 @@ const Index = () => {
         } as React.CSSProperties}
       >
         <FWallNavbar 
-           atmosphere={atmosphereColor} 
-           onAtmosphereChange={setAtmosphereColor} 
            onRefresh={handleFullRefresh}
            isRefreshing={isRefreshing}
          />
@@ -120,9 +117,9 @@ const Index = () => {
         </motion.div>
 
         {/* Masonry Grid */}
-        <div className="flex gap-6 p-6 max-w-[2400px] mx-auto">
+        <div className="flex gap-2 sm:gap-6 p-2 sm:p-6 max-w-[2400px] mx-auto">
           {columnData.map((columnItems, colIndex) => (
-            <div key={colIndex} className="flex-1 flex flex-col gap-6">
+            <div key={colIndex} className="flex-1 flex flex-col gap-2 sm:gap-6">
               {columnItems.map(({ file, index }) => (
                 <div key={file.name} className="relative group">
                   <WallpaperCard

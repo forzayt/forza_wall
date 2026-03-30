@@ -5,13 +5,11 @@ import { Button } from "./ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 interface FWallNavbarProps {
-  atmosphere: string;
-  onAtmosphereChange: (color: string) => void;
   onRefresh?: () => void;
   isRefreshing?: boolean;
 }
 
-const FWallNavbar = ({ atmosphere, onAtmosphereChange, onRefresh, isRefreshing }: FWallNavbarProps) => {
+const FWallNavbar = ({ onRefresh, isRefreshing }: FWallNavbarProps) => {
   const { scrollY } = useScroll();
   const width = useTransform(scrollY, [0, 100], ["95%", "85%"]);
   const y = useTransform(scrollY, [0, 100], [0, 12]);
@@ -52,19 +50,6 @@ const FWallNavbar = ({ atmosphere, onAtmosphereChange, onRefresh, isRefreshing }
               </span>
             </Button>
           )}
-
-          <label className="relative flex items-center justify-center w-6 h-6 group cursor-pointer">
-            <input
-              type="color"
-              value={atmosphere}
-              onChange={(e) => onAtmosphereChange(e.target.value)}
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-            />
-            <div 
-              className="w-4 h-4 rounded-full ring-2 ring-foreground/10 ring-offset-1 ring-offset-background group-hover:scale-125 transition-transform duration-300"
-              style={{ backgroundColor: atmosphere }}
-            />
-          </label>
 
           <a 
             href="https://github.com/forzayt/forza_wall"
