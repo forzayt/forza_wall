@@ -27,7 +27,7 @@ const FWallNavbar = ({ onRefresh, isRefreshing }: FWallNavbarProps) => {
           scrambleChars=".:*#" 
           className="text-2xl tracking-tighter font-bold text-foreground"
         >
-          Forza Wall
+          FWall
         </ScrambledText>
 
         <div className="flex items-center gap-4">
