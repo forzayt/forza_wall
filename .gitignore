@@ -24,4 +24,3 @@ dist-ssr
 *.sw?
 
 # Generated files
-public/data.json
