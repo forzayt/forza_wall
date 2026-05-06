@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/data/:path*",
+      "destination": "/data/:path*"
+    },
+    {
+      "source": "/api/list-data",
+      "destination": "/data.json"
+    }
+  ]
+}
