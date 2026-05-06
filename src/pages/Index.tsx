@@ -23,59 +23,23 @@ const Index = () => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const fetchDataFiles = useCallback(async () => {
-    const CACHE_KEY = "fwall-data-cache";
-    const CACHE_EXPIRY = 7 * 24 * 60 * 60 * 1000; // 1 week in milliseconds
-
     try {
-      // Try to load from cache first
-      const cachedData = localStorage.getItem(CACHE_KEY);
-      if (cachedData) {
-        const { files, timestamp } = JSON.parse(cachedData);
-        const age = Date.now() - timestamp;
-
-        if (age < CACHE_EXPIRY) {
-          console.log(`Loading data from cache (Age: ${(age / (1000 * 60 * 60)).toFixed(2)} hours)`);
-          const shuffled = [...files].sort(() => Math.random() - 0.5);
-          setDataFiles(shuffled);
-          return;
-        }
-      }
-
-      // Fetch from server if no cache or expired
       const response = await fetch('https://forzayt.github.io/forza_wall/public/data.json');
       if (response.ok) {
         const files = await response.json();
-        
-        // Save to cache
-        localStorage.setItem(CACHE_KEY, JSON.stringify({
-          files,
-          timestamp: Date.now()
-        }));
-
         const shuffled = [...files].sort(() => Math.random() - 0.5);
         setDataFiles(shuffled);
       } else {
         throw new Error("Failed to fetch data files");
       }
     } catch (error) {
-      console.error("Failed to fetch or cache data files:", error);
-      // Fallback: try to use expired cache if network fails
-      const cachedData = localStorage.getItem(CACHE_KEY);
-      if (cachedData) {
-        try {
-          const { files } = JSON.parse(cachedData);
-          setDataFiles([...files].sort(() => Math.random() - 0.5));
-        } catch (e) {
-          // Ignore parse errors on fallback
-        }
-      }
+      console.error("Failed to fetch data files:", error);
+      toast.error("Failed to load wallpapers. Please try again later.");
     }
   }, []);
 
   const handleFullRefresh = () => {
     setIsRefreshing(true);
-    // Clear cache to force a fresh fetch on reload
-    localStorage.removeItem("fwall-data-cache");
     // Brief delay to show the refresh animation before the page reloads
     setTimeout(() => {
       window.location.reload();
