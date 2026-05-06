@@ -13,7 +13,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "start": "vite"
+    "start": "vite",
+    "add": "node scripts/update-data.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

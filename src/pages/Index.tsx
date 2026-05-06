@@ -42,7 +42,7 @@ const Index = () => {
       }
 
       // Fetch from server if no cache or expired
-      const response = await fetch('/data.json');
+      const response = await fetch('https://forzayt.github.io/forza_wall/public/data.json');
       if (response.ok) {
         const files = await response.json();
         

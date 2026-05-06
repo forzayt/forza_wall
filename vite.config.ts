@@ -20,56 +20,13 @@ export default defineConfig(({ mode }) => ({
     mode === "development" && componentTagger(),
     {
       name: 'list-data-files',
-      buildStart() {
-        const dataDir = path.resolve(__dirname, 'public/data');
-        const outputFile = path.resolve(__dirname, 'public/data.json');
-        
-        try {
-          if (fs.existsSync(dataDir)) {
-            const files = fs.readdirSync(dataDir).map(file => ({
-              name: file,
-              url: `/api/data/${encodeURIComponent(file)}`
-            }));
-            fs.writeFileSync(outputFile, JSON.stringify(files, null, 2));
-            console.log(`Generated ${outputFile} with ${files.length} files`);
-          } else {
-            fs.writeFileSync(outputFile, JSON.stringify([]));
-            console.log(`Generated empty ${outputFile} (data directory not found)`);
-          }
-        } catch (error) {
-          console.error('Failed to generate data.json:', error);
-        }
-      },
       configureServer(server: ViteDevServer) {
         server.middlewares.use((req: IncomingMessage, res: ServerResponse, next: (err?: any) => void) => {
           const parsedUrl = url.parse(req.url || '', true);
           const pathname = parsedUrl.pathname || '';
 
-          if (pathname === '/api/list-data' || pathname === '/data.json') {
-            const dataDir = path.resolve(__dirname, 'public/data');
-            try {
-              if (!fs.existsSync(dataDir)) {
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.end(JSON.stringify([]));
-                return;
-              }
-              const files = fs.readdirSync(dataDir).map(file => ({
-                name: file,
-                url: `/api/data/${encodeURIComponent(file)}`
-              }));
-              res.statusCode = 200;
-              res.setHeader('Content-Type', 'application/json');
-              res.end(JSON.stringify(files));
-            } catch (error) {
-              res.statusCode = 500;
-              res.end(JSON.stringify({ error: 'Failed to list files' }));
-            }
-            return;
-          }
-
-          if (pathname.startsWith('/api/data/')) {
-            const fileName = decodeURIComponent(pathname.replace('/api/data/', ''));
+          if (pathname.startsWith('/api/data/') || pathname.startsWith('/data/')) {
+            const fileName = decodeURIComponent(pathname.replace(/^\/(api\/data|data)\//, ''));
             const filePath = path.resolve(__dirname, 'public/data', fileName);
             if (fs.existsSync(filePath)) {
               const fileStream = fs.createReadStream(filePath);
