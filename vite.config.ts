@@ -28,7 +28,7 @@ export default defineConfig(({ mode }) => ({
           if (fs.existsSync(dataDir)) {
             const files = fs.readdirSync(dataDir).map(file => ({
               name: file,
-              url: `/data/${file}`
+              url: `/api/data/${encodeURIComponent(file)}`
             }));
             fs.writeFileSync(outputFile, JSON.stringify(files, null, 2));
             console.log(`Generated ${outputFile} with ${files.length} files`);
@@ -56,7 +56,7 @@ export default defineConfig(({ mode }) => ({
               }
               const files = fs.readdirSync(dataDir).map(file => ({
                 name: file,
-                url: `/data/${file}`
+                url: `/api/data/${encodeURIComponent(file)}`
               }));
               res.statusCode = 200;
               res.setHeader('Content-Type', 'application/json');
@@ -69,7 +69,7 @@ export default defineConfig(({ mode }) => ({
           }
 
           if (pathname.startsWith('/api/data/')) {
-            const fileName = pathname.replace('/api/data/', '');
+            const fileName = decodeURIComponent(pathname.replace('/api/data/', ''));
             const filePath = path.resolve(__dirname, 'public/data', fileName);
             if (fs.existsSync(filePath)) {
               const fileStream = fs.createReadStream(filePath);
