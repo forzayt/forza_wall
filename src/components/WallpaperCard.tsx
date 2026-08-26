@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface WallpaperCardProps {
   src: string;
@@ -11,9 +11,34 @@ interface WallpaperCardProps {
 
 const WallpaperCard = ({ src, title, author, index, onClick }: WallpaperCardProps) => {
   const [loaded, setLoaded] = useState(false);
+  const [inView, setInView] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      {
+        rootMargin: "0px 0px 400px 0px", // Trigger load when 400px below/near viewport
+      }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   return (
     <motion.div
+      ref={containerRef}
       className="masonry-item cursor-pointer"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -33,15 +58,16 @@ const WallpaperCard = ({ src, title, author, index, onClick }: WallpaperCardProp
             }}
           />
         )}
-        <img
-          src={src}
-          alt={title}
-          loading="lazy"
-          onLoad={() => setLoaded(true)}
-          className={`w-full rounded-card-inner object-cover transition-opacity duration-500 ${
-            loaded ? "opacity-100" : "opacity-0 absolute inset-0"
-          }`}
-        />
+        {inView && (
+          <img
+            src={src}
+            alt={title}
+            onLoad={() => setLoaded(true)}
+            className={`w-full rounded-card-inner object-cover transition-opacity duration-500 ${
+              loaded ? "opacity-100" : "opacity-0 absolute inset-0"
+            }`}
+          />
+        )}
         {/* Hover overlay */}
         <div className="absolute inset-0 rounded-card-inner bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
           <div>
