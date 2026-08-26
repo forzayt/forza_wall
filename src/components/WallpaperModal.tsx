@@ -64,12 +64,18 @@ const WallpaperModal = ({ wallpaper, onClose }: WallpaperModalProps) => {
               <X size={18} />
             </button>
 
-            <img
-              src={wallpaper.src}
-              alt={wallpaper.title}
-              className="max-h-[80vh] w-auto rounded-card object-contain"
-              style={{ boxShadow: "0 30px 80px -20px hsla(270, 80%, 65%, 0.25)" }}
-            />
+            <div className="relative overflow-hidden rounded-card flex items-center justify-center">
+              <img
+                src={wallpaper.src}
+                alt={wallpaper.title}
+                className="max-h-[80vh] w-auto object-contain wallpaper-image-graded rounded-card"
+                style={{ boxShadow: "0 30px 80px -20px hsla(270, 80%, 65%, 0.25)" }}
+              />
+              {/* Color grading / lighting overlay */}
+              <div className="absolute inset-0 rounded-card pointer-events-none wallpaper-grade-overlay z-[2]" />
+              {/* Sharp structural frame / border */}
+              <div className="absolute inset-0 rounded-card pointer-events-none wallpaper-frame-border z-[3]" />
+            </div>
 
             <div className="flex items-center gap-6">
               <div className="text-center">

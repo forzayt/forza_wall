@@ -141,4 +141,35 @@
     @apply text-[10px] uppercase tracking-[0.15em] font-medium;
     color: hsla(var(--foreground) / 0.5);
   }
+
+  /* Wallpaper Enhancements */
+  .wallpaper-image-graded {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: auto;
+    filter: contrast(1.05) saturate(1.03) brightness(1.01);
+    transition: filter 0.3s ease, opacity 0.5s ease;
+  }
+
+  .wallpaper-image-graded:hover {
+    filter: contrast(1.08) saturate(1.06) brightness(1.03);
+  }
+
+  .wallpaper-grade-overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.05) 0%,
+      transparent 40%,
+      rgba(0, 0, 0, 0.4) 100%
+    );
+    mix-blend-mode: overlay;
+  }
+
+  .wallpaper-frame-border {
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  }
+
+  .group:hover .wallpaper-frame-border {
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15),
+                0 8px 24px -8px hsla(var(--glow-purple) / 0.2);
+  }
 }

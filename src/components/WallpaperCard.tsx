@@ -59,17 +59,27 @@ const WallpaperCard = ({ src, title, author, index, onClick }: WallpaperCardProp
           />
         )}
         {inView && (
-          <img
-            src={src}
-            alt={title}
-            onLoad={() => setLoaded(true)}
-            className={`w-full rounded-card-inner object-cover transition-opacity duration-500 ${
-              loaded ? "opacity-100" : "opacity-0 absolute inset-0"
-            }`}
-          />
+          <>
+            <img
+              src={src}
+              alt={title}
+              onLoad={() => setLoaded(true)}
+              className={`w-full rounded-card-inner object-cover wallpaper-image-graded ${
+                loaded ? "opacity-100" : "opacity-0 absolute inset-0"
+              }`}
+            />
+            {loaded && (
+              <>
+                {/* Color grading / lighting overlay */}
+                <div className="absolute inset-0 rounded-card-inner pointer-events-none wallpaper-grade-overlay z-[2]" />
+                {/* Sharp structural frame / border */}
+                <div className="absolute inset-0 rounded-card-inner pointer-events-none wallpaper-frame-border transition-all duration-300 z-[3]" />
+              </>
+            )}
+          </>
         )}
         {/* Hover overlay */}
-        <div className="absolute inset-0 rounded-card-inner bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+        <div className="absolute inset-0 rounded-card-inner bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 z-[4]">
           <div>
             <p className="metadata-text">{author}</p>
           </div>
